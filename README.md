@@ -119,5 +119,7 @@ sh train.sh
 
 ### Data
 The image data we used is from Stanford University Medical Center dataset. You can follow this link to download it.
+
 Stanford数据集链接
+
 And tabular data is already provided in this github.
