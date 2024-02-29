@@ -13,11 +13,12 @@ This code is a pytorch implementation of our paper "PE-MVCNET: MULTI-VIEW AND CR
 
  Our method comprises the Image-only module with an integrated multi-view block, the EMR-only module, and the Cross-modal Attention Fusion (CMAF) module. These modules cooperate to extract comprehensive features that subsequently generate predictions for PE. The figure below shows our proposed network.
 
- ![image](fig1 url)
+![image](images/model.png)
 
  ## The Multi-View Coupled Self-Attention Block of our method
 
- ![image](fig2 url)
+<img src="https://github.com/LeavingStarW/PE-MVCNET/blob/main/images/DASA.png?raw=true" width="400px">
+
 
  ## Experiment result
    We compared to other state-of-the-art methods and our results are better than any other method of comparison. Results prove that the introduced CMAF module adeptly captures the inherent correlations between the two modalities, thereby providing the model with richer information.
