@@ -115,14 +115,12 @@ sh test.sh
 ```
 
 ### Train by yourself
-If you want to train by yourself, you can run these command :
+If you want to train by yourself, you can run this command :
 ```
 sh train.sh
 ```
 
 ### Data
-The image data we used is from Stanford University Medical Center dataset. You can follow this link to download it.
+The data we used is from Stanford University Medical Center dataset. You can download it from https://stanfordaimi.azurewebsites.net/datasets/3a7548a4-8f65-4ab7-85fa-3d68c9efc1bd.
 
-Stanford数据集链接
-
-And tabular data is already provided in this github.
+And the tabular data is already provided in this link.
