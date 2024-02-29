@@ -102,9 +102,11 @@ This code is a pytorch implementation of our paper "PE-MVCNET: MULTI-VIEW AND CR
 pip install -r requirements.txt
 ```
 ### Download the checkpoint
-Our model's best checkpoint can be found in the following link : 
+Our model's best checkpoint is provided in this github, and you can use it to easily replicate our results.
 
-checkpoint的链接
+### Data preprogress
+The preprocessing of the image data can follow this link https://github.com/marshuang80/PENet
+ In short, using create_hdf5.py to make an hdf5 file. As for the preprocessing of the tabular data, We first conduct dimensionality reduction using LinearSVC on the EMR data, then use TabNet to transform the data into suitable embeddings. 
 
 ### Evaluation
 To do the evaluation process, please run the following command :
