@@ -15,10 +15,8 @@ This code is a pytorch implementation of our paper "PE-MVCNET: MULTI-VIEW AND CR
 
 ![image](images/model.png)
 
-<img src="https://github.com/LeavingStarW/PE-MVCNET/blob/main/images/DASA.png?raw=true" width="400px">
-
  ## The Multi-View Coupled Self-Attention Block of our method
-
+<img src="https://github.com/LeavingStarW/PE-MVCNET/blob/main/images/DASA.png?raw=true" width="400px">
 
 
 
