@@ -1,12 +1,12 @@
 """Create HDF5 file for PE project."""
 import argparse
+import h5py
 import numpy as np
 import os
 import pickle
 import re
 import util
 import pandas as pd
-import h5py
 
 from ct import CTPE, CONTRAST_HU_MIN, CONTRAST_HU_MAX
 from tqdm import tqdm
@@ -16,59 +16,51 @@ def main(args):
     study_re = re.compile(r'(\d+)_(\d\.\d)')
     study_paths = []
     ctpes = []
-
-    idx2acc = pickle.load(open("/data4/PE_stanford/idx_2_acc_stanford.pkl","rb"))
     
     df = pd.read_csv(args.csv_path)
-    df = df.set_index("acc")
-
-    df = df[~df.index.duplicated(keep='first')]
-
+    
+    acc = set(df.ACCESSION_NO)
+    df.set_index("ACCESSION_NO", inplace=True)
 
     # Read slice-wise labels
     with open(args.slice_list, 'r') as slice_fh:
         slice_lines = [l.strip() for l in slice_fh.readlines() if l.strip()]
     name2slices = {}
     name2info = {}
-    print(len(slice_lines))
     for slice_line in slice_lines:
         try:
             info, slices = slice_line.split(':')
         except:
-            print("exception")
-            print(slice_line)
             continue
         slices = slices.strip()
         info = info.split(',')
         studynum, thicc, label, num_slices, phase, dataset = int(info[0]), float(info[1]), int(info[2]), int(info[3]), info[4], info[5]
-        #if phase != "test": 
-        #    continue
-
         name2info[studynum] = [thicc, label, num_slices, phase, dataset]
         if slices: 
             name2slices[studynum] = [int(n) for n in slices.split(',')]
         else:
             name2slices[studynum] = []
-        if not slices and label == "1": print("EXCEPTION")
     # Collect list of paths to studies to convert
     voxel_means = []
     voxel_stds = []
-    for study_num in name2slices.keys():
-        study_paths.append(study_num)
-        pe_slice_nums = name2slices.get(study_num, [])
-        thicc, label, num_slices, phase, dataset = name2info[study_num]
-        print(study_num, label, phase, num_slices)
-        acc = idx2acc[str(study_num)]
-        age = df.loc[acc].current_age_yrs
-        is_smoker = df.loc[acc].SMOKER
-        race = df.loc[acc].CANONICAL_RACE
-        gender = df.loc[acc].GENDER
-
-        if type(gender) != str: print(gender)
-
-        slice_thickness = args.use_thicknesses[0]
-        ctpes.append(CTPE(study_num, slice_thickness, pe_slice_nums, num_slices, dataset, is_positive=label, phase=phase,
-                          age=age, is_smoker=is_smoker, race=race, gender=gender))
+    for base_path, _, file_names in os.walk(args.data_dir):
+        npy_names = [f for f in file_names if f.endswith('.npy')]
+        for name in npy_names:
+            match = study_re.match(name)
+            if not match:
+                print(name)
+                continue
+            study_num, slice_thickness = int(match.group(1)), float(match.group(2))
+            if study_num in name2slices:
+                if slice_thickness in args.use_thicknesses:
+                    # Add to list of studies
+                    study_paths.append(os.path.join(base_path, name))
+                    pe_slice_nums = name2slices.get(study_num, [])
+                    thicc, label, num_slices, phase, dataset = name2info[study_num]
+                    print (study_num, label, phase, num_slices)
+                    if thicc != slice_thickness:
+                        print("Thickness issue with file ", name)
+                    ctpes.append(CTPE(study_num, slice_thickness, pe_slice_nums, num_slices, dataset, is_positive=label, phase=phase))
 
     with open(os.path.join(args.output_dir, 'series_list.pkl'), 'wb') as pkl_fh:
         pickle.dump(ctpes, pkl_fh)
@@ -101,6 +93,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_dir', type=str,
                         default='/deep/group/aihc-bootcamp-winter2018/medical-imaging/ct_chest_pe/tanay_data_12_4_clean',
                         help='Output directory for HDF5 file and pickle file.')
+
     parser.add_argument('--csv_path', type=str)
 
     args_ = parser.parse_args()
