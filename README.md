@@ -113,6 +113,10 @@ To do the evaluation process, please run the following command :
 ```
 sh test.sh
 ```
+If you want to find the best threshold for the result, please run the following command:
+```
+python best_threshold.py
+```
 
 ### Train by yourself
 If you want to train by yourself, you can run this command :
