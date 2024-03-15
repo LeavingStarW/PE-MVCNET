@@ -102,7 +102,7 @@ This code is a pytorch implementation of our paper "PE-MVCNET: MULTI-VIEW AND CR
 pip install -r requirements.txt
 ```
 ### Download the checkpoint
-Our model's best checkpoint is provided in this github, and you can use it to easily replicate our results.
+Our model's best checkpoint is provided in this link https://drive.google.com/file/d/1RAhGWlnhfWrR4VFcd0w_a_pskoMam7hd/view?usp=drive_link, and you can use it to easily replicate our results.
 
 ### Data preprocess
 The preprocessing of the image data can follow this link https://github.com/marshuang80/PENet
