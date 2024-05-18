@@ -128,3 +128,15 @@ sh train.sh
 The data we used is from Stanford University Medical Center dataset. You can download it from https://stanfordaimi.azurewebsites.net/datasets/3a7548a4-8f65-4ab7-85fa-3d68c9efc1bd.
 
 And the tabular data is already provided in this link.
+
+### Citation
+```
+@InProceedings{,
+    author    = {Guo, Zhaoxin and Wang, Zhipeng and Ge, Ruiquan and Yu, Jianxun and Qin, Feiwei and Tian, Yuan and Peng, Yuqing and Li, Yonghong and Wang, Changmiao},
+    title     = {PE-MVCNet: Multi-view and Cross-modal Fusion Network for Pulmonary Embolism Prediction},
+    booktitle = {International Symposium on Biomedical Imaging -- ISBI 2024},
+    month     = {May},
+    year      = {2024},
+    url       = {}
+}
+```
