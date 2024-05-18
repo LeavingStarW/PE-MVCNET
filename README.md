@@ -131,7 +131,7 @@ And the tabular data is already provided in this link.
 
 ### Citation
 ```
-@InProceedings{,
+@InProceedings{guo2024pemvcnet,
     author    = {Guo, Zhaoxin and Wang, Zhipeng and Ge, Ruiquan and Yu, Jianxun and Qin, Feiwei and Tian, Yuan and Peng, Yuqing and Li, Yonghong and Wang, Changmiao},
     title     = {PE-MVCNet: Multi-view and Cross-modal Fusion Network for Pulmonary Embolism Prediction},
     booktitle = {International Symposium on Biomedical Imaging -- ISBI 2024},
