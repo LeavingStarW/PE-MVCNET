@@ -220,13 +220,13 @@ class MMMNet(nn.Module):
         x3 = self.Pooling(x2) # n, 256, 4, h/8, w/8
         x3 = self.A_conv2(x3) # n, 512, 4, h/8, w/8
 
-        x4 = self.Pooling(x3) # n, 512, 2, h/16, w/16
-        x4 = self.A_conv3(x4) # n, 512, 2, h/16, w/16
+        '''x4 = self.Pooling(x3) # n, 512, 2, h/16, w/16
+        x4 = self.A_conv3(x4) # n, 512, 2, h/16, w/16'''
 
         # n, 512, 1, 1, 1 => n, 512 
-        out = self.ClassHead(nn.AdaptiveMaxPool3d((1,1,1))(x4).view(x4.shape[0],-1)) 
+        out = self.ClassHead(nn.AdaptiveMaxPool3d((1,1,1))(x3).view(x3.shape[0],-1)) 
 
-        return x4,out
+        return x3,out
 
     def args_dict(self):
         model_args = {}
@@ -288,25 +288,25 @@ class PEMVCNet(nn.Module):
         super().__init__()
         self.mv = MMMNet()
         self.gp = nn.AdaptiveAvgPool3d(1)
-        self.li1 = nn.Linear(512,256)
+        self.li1 = nn.Linear(512,128)
         self.ai1 = nn.ReLU()
-        self.li2 = nn.Linear(256,128)
+        self.li2 = nn.Linear(128,32)
 
         nn.init.kaiming_normal_(self.li1.weight,mode='fan_in',nonlinearity='relu')
         nn.init.kaiming_normal_(self.li2.weight,mode='fan_in',nonlinearity='relu')
 
-        self.lt1 = nn.Linear(63,128)
+        self.lt1 = nn.Linear(7,32)
         self.at1 = nn.ReLU()
         self.dropout1 = nn.Dropout(0.4)
-        self.lt2 = nn.Linear(128,128)
+        self.lt2 = nn.Linear(32,32)
 
         nn.init.kaiming_normal_(self.lt1.weight,mode='fan_in',nonlinearity='relu')
         nn.init.kaiming_normal_(self.lt2.weight,mode='fan_in',nonlinearity='relu')
 
-        self.Fusion = CMFA(img_dim=128,tab_dim=128,hid_dim=128)
-        self.c1 = nn.Linear(256,128)
+        self.Fusion = CMFA(img_dim=32,tab_dim=32,hid_dim=32)
+        self.c1 = nn.Linear(64,32)
         self.a1 = nn.ReLU()
-        self.c2 = nn.Linear(128,1)
+        self.c2 = nn.Linear(32,1)
 
         nn.init.kaiming_normal_(self.c1.weight,mode='fan_in',nonlinearity='relu')
         nn.init.kaiming_normal_(self.c2.weight,mode='fan_in',nonlinearity='relu')
